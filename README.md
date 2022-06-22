@@ -2,9 +2,7 @@
 
 This project is for SysWhisper2 **practice purpose** and heavily relies on https://github.com/apokryptein/secinject
 
-Failed to implement RtlCreateUserThread since syscall cannot be found using SW2
-
-
+- Failed to implement RtlCreateUserThread since syscall cannot be found using SW2
 - Currently, this is only implemented for x64 processes.
 
 ### How to Make
@@ -20,10 +18,16 @@ make
 sw2-sec-inject PID LISTENER-NAME
 ```
 
+![image](https://user-images.githubusercontent.com/21979646/175093085-b24d36dc-4659-4e2a-8b33-20187eedc254.png)
+
+
 #### Injecting Other Shellcode
 ```
 sw2-sec-shinject PID /path/to/bin
 ```
+
+![image](https://user-images.githubusercontent.com/21979646/175093429-a17e1bcf-2101-450c-b783-1bd7b04fd8f5.png)
+
 
 ### Code References
 https://github.com/apokryptein/secinject
