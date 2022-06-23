@@ -102,6 +102,25 @@ typedef enum _SECTION_INHERIT
 	ViewUnmap = 2
 } SECTION_INHERIT, *PSECTION_INHERIT;
 
+
+typedef struct _PS_ATTRIBUTE
+{
+ULONG  Attribute;
+SIZE_T Size;
+union
+{
+ULONG Value;
+PVOID ValuePtr;
+} u1;
+PSIZE_T ReturnLength;
+} PS_ATTRIBUTE, *PPS_ATTRIBUTE;
+
+typedef struct _PS_ATTRIBUTE_LIST
+{
+SIZE_T       TotalLength;
+PS_ATTRIBUTE Attributes[1];
+} PS_ATTRIBUTE_LIST, *PPS_ATTRIBUTE_LIST;
+
 EXTERN_C NTSTATUS NtCreateSection(
 OUT PHANDLE SectionHandle,
 IN ACCESS_MASK DesiredAccess,
@@ -135,5 +154,18 @@ OUT PHANDLE ProcessHandle,
 IN ACCESS_MASK DesiredAccess,
 IN POBJECT_ATTRIBUTES ObjectAttributes,
 IN PCLIENT_ID ClientId OPTIONAL) asm("NtOpenProcess");
+
+EXTERN_C NTSTATUS NtCreateThreadEx(
+OUT PHANDLE ThreadHandle,
+IN ACCESS_MASK DesiredAccess,
+IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+IN HANDLE ProcessHandle,
+IN PVOID StartRoutine,
+IN PVOID Argument OPTIONAL,
+IN ULONG CreateFlags,
+IN SIZE_T ZeroBits,
+IN SIZE_T StackSize,
+IN SIZE_T MaximumStackSize,
+IN PPS_ATTRIBUTE_LIST AttributeList OPTIONAL) asm("NtCreateThreadEx");
 
 #endif
