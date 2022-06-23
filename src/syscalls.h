@@ -130,4 +130,10 @@ IN PVOID BaseAddress) asm("NtUnmapViewOfSection");
 EXTERN_C NTSTATUS NtClose(
 IN HANDLE Handle) asm("NtClose");
 
+EXTERN_C NTSTATUS NtOpenProcess(
+OUT PHANDLE ProcessHandle,
+IN ACCESS_MASK DesiredAccess,
+IN POBJECT_ATTRIBUTES ObjectAttributes,
+IN PCLIENT_ID ClientId OPTIONAL) asm("NtOpenProcess");
+
 #endif
