@@ -2,7 +2,8 @@
 
 This project is for SysWhisper2 **practice purpose** and heavily relies on https://github.com/apokryptein/secinject
 
-- Failed to implement RtlCreateUserThread since syscall cannot be found using SW2
+- <del>Failed to implement RtlCreateUserThread since syscall cannot be found using SW2
+- ^Replaced with NtCreateThreadEx
 - Currently, this is only implemented for x64 processes.
 
 ### How to Make
